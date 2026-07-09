@@ -1,32 +1,75 @@
 ---
-title : "Clean up"
-date : 2024-01-01
-weight : 6
-chapter : false
-pre : " <b> 5.6. </b> "
+title: "Clean Up Resources"
+date: 2026-07-03
+weight: 6
+chapter: false
+pre: " <b> 5.6. </b> "
 ---
-Congratulations on completing this workshop! 
-In this workshop, you learned architecture patterns for accessing Amazon S3 without using the Public Internet. 
-+ By creating a gateway endpoint, you enabled direct communication between EC2 resources and Amazon S3, without traversing an Internet Gateway. 
-+ By creating an interface endpoint you extended S3 connectivity to resources running in your on-premises data center via AWS Site-to-Site VPN or Direct Connect. 
 
-#### clean up
-1. Navigate to Hosted Zones on the left side of Route 53 console. Click the name of *s3.us-east-1.amazonaws.com* zone. Click Delete and confirm deletion by typing delete. 
+When you are done with the workshop, follow these steps to delete all AWS resources and avoid ongoing charges.
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/delete-zone.png)
 
-2. Disassociate the Route 53 Resolver Rule - myS3Rule from "VPC Onprem" and Delete it. 
+#### 1. Destroy the CDK Stack
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/vpc.png)
+Run the following command from the `aws/infrastructure` directory:
 
-4. Open the CloudFormation console  and delete the two CloudFormation Stacks that you created for this lab:
-+ PLOnpremSetup
-+ PLCloudSetup
+```bash
+cd aws/infrastructure
+npx cdk destroy -c environment=dev
+```
 
-![delete stack](/images/5-Workshop/5.6-Cleanup/delete-stack.png)
+CDK will ask for confirmation:
+```
+Are you sure you want to delete: DmsStack-dev (y/n)? y
+```
 
-5. Delete S3 buckets
-+ Open S3 console
-+ Choose the bucket we created for the lab, click and confirm empty. Click delete and confirm delete.
+This command will automatically delete:
+- All 3 S3 buckets (FrontendBucket, QuarantineBucket, DocumentsBucket) and their contents
+- DynamoDB table `dms-dev` and all data
+- All 12 Lambda functions and their CloudWatch Log Groups
+- API Gateway REST API
+- Cognito User Pool and all users
+- EventBridge Rules and targets
+- CloudFront distribution
+- SNS topic and email subscriptions
+- GuardDuty Malware Protection Plan and IAM role
 
-![delete s3](/images/5-Workshop/5.6-Cleanup/delete-s3.png)
+
+#### 2. Verify Deletion in AWS Console
+
+After the destroy command completes, verify that resources have been removed:
+
+1. **CloudFormation** → confirm `DmsStack-dev` stack no longer exists
+2. **S3** → confirm the 3 DMS buckets are gone
+3. **DynamoDB** → confirm table `dms-dev` is deleted
+4. **Lambda** → confirm DMS functions are removed
+5. **Cognito** → confirm user pool `dms-dev` is deleted
+
+#### 3. Remove CDK Bootstrap (Optional)
+
+If you want to fully clean up and remove the CDK bootstrap stack as well:
+
+```bash
+aws cloudformation delete-stack --stack-name CDKToolkit
+```
+
+
+#### 4. Check for Remaining Charges
+
+After cleanup, verify in **AWS Billing → Cost Explorer** that no DMS-related charges appear in the next billing cycle. Common items to check:
+- S3 storage charges
+- DynamoDB read/write units
+- Lambda invocations
+- CloudWatch log storage
+- GuardDuty scan charges
+
+#### Summary
+
+Congratulations on completing the DMS Workshop! You have successfully:
+
+- Deployed a fully serverless Document Management System on AWS using CDK
+- Configured role-based access control with Amazon Cognito
+- Implemented a secure upload pipeline with S3 Presigned URLs and GuardDuty malware scanning
+- Used a single-table DynamoDB design with 4 GSIs for efficient querying
+- Set up CloudWatch logging, X-Ray tracing, and SNS cost alerts
+- Verified the full end-to-end document upload, scan, and retrieval flow

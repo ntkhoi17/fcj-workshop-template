@@ -1,19 +1,49 @@
 ---
-title : "Giới thiệu"
-date : 2024-01-01 
-weight : 1
-chapter : false
-pre : " <b> 5.1. </b> "
+title: "Giới thiệu"
+date: 2026-07-03
+weight: 1
+chapter: false
+pre: " <b> 5.1. </b> "
 ---
 
-#### Giới thiệu về VPC Endpoint
+{{% notice info %}}
+**Source Code (Mã nguồn):** [Document-Management-System](https://github.com/thkddev/Document-Management-System.git)
+{{% /notice %}}
 
-+ Điểm cuối VPC (endpoint) là thiết bị ảo. Chúng là các thành phần VPC có thể mở rộng theo chiều ngang, dự phòng và có tính sẵn sàng cao. Chúng cho phép giao tiếp giữa tài nguyên điện toán của bạn và dịch vụ AWS mà không gây ra rủi ro về tính sẵn sàng.
-+ Tài nguyên điện toán đang chạy trong VPC có thể truy cập Amazon S3 bằng cách sử dụng điểm cuối Gateway. Interface Endpoint  PrivateLink có thể được sử dụng bởi tài nguyên chạy trong VPC hoặc tại TTDL.
+#### DMS Project là gì?
 
-#### Tổng quan về workshop
-Trong workshop này, bạn sẽ sử dụng hai VPC.
-+ **"VPC Cloud"** dành cho các tài nguyên cloud như Gateway endpoint và EC2 instance để kiểm tra.
-+ **"VPC On-Prem"** mô phỏng môi trường truyền thống như nhà máy hoặc trung tâm dữ liệu của công ty. Một EC2 Instance chạy phần mềm StrongSwan VPN đã được triển khai trong "VPC On-prem" và được cấu hình tự động để thiết lập đường hầm VPN Site-to-Site với AWS Transit Gateway. VPN này mô phỏng kết nối từ một vị trí tại TTDL (on-prem) với AWS cloud. Để giảm thiểu chi phí, chỉ một phiên bản VPN được cung cấp để hỗ trợ workshop này. Khi lập kế hoạch kết nối VPN cho production workloads của bạn, AWS khuyên bạn nên sử dụng nhiều thiết bị VPN để có tính sẵn sàng cao.
+**Document Management System (DMS)** là dự án cuối kỳ của chương trình thực tập, tổng hợp toàn bộ kiến thức về AWS Serverless vào một hệ thống hoàn chỉnh, chuẩn production.
 
-![overview](/images/5-Workshop/5.1-Workshop-overview/diagram1.png)
+Hệ thống giải quyết các bài toán thực tế trong doanh nghiệp:
+- Lưu trữ tài liệu tập trung, bảo mật, có lịch sử phiên bản
+- Phân quyền truy cập theo vai trò (upload, xem, chia sẻ)
+- Pipeline upload bất đồng bộ xử lý file lớn không bị nghẽn cổ chai
+- Audit trail bất biến cho mọi thao tác với tài liệu
+- Tự động quét malware mỗi khi có file được tải lên
+
+#### Sơ đồ kiến trúc hệ thống
+
+![System Architecture Diagram](../../../images/architecturalcomplex.png)
+
+#### Các dịch vụ AWS sử dụng
+
+| Dịch vụ | Vai trò trong hệ thống |
+|---|---|
+| **Amazon Cognito** | User pool, xác thực JWT, 3 nhóm người dùng (EMPLOYEE / DEPT_ADMIN / SYS_ADMIN) |
+| **API Gateway** | REST API, Cognito Authorizer, phân quyền IAM từng endpoint |
+| **AWS Lambda** | 12 handler serverless, Node.js 22, ARM64, X-Ray tracing |
+| **Amazon S3** | QuarantineBucket (khu kiểm dịch upload), DocumentsBucket (lưu trữ chính thức) |
+| **Amazon DynamoDB** | Single-table design, 4 GSI, billing PAY_PER_REQUEST, bật PITR |
+| **Amazon EventBridge** | Bus sự kiện định tuyến sự kiện S3 tới các Lambda function |
+| **GuardDuty** | Malware Protection Plan quét toàn bộ file tải vào quarantine |
+| **Amazon CloudFront** | CDN phân phối React SPA từ S3 |
+| **AWS CDK** | Triển khai hạ tầng hoàn toàn bằng TypeScript (IaC) |
+| **CloudWatch + SNS** | Lưu log, cảnh báo metric, gửi email thông báo |
+
+#### Các quyết định thiết kế quan trọng
+
+- **Presigned URL khi upload**: File không bao giờ đi qua API Gateway (tránh giới hạn 10MB payload). Frontend nhận Presigned PUT URL và upload thẳng lên S3 QuarantineBucket.
+- **Upload qua Quarantine trước**: Mọi file đều được giữ trong QuarantineBucket cho đến khi GuardDuty xác nhận an toàn. Chỉ file được tag `CLEAN` mới được chuyển sang DocumentsBucket chính thức.
+- **DynamoDB single-table**: Tất cả entity (Document, Version, Share, AuditLog, UploadIntent, UserProfile) dùng chung một bảng với composite key — tiết kiệm chi phí và đơn giản hoá quản lý.
+- **Audit log bất biến**: Bản ghi AuditLog chỉ được thêm mới (append-only), dùng điều kiện `attribute_not_exists` để ngăn sửa xóa.
+- **IAM tối thiểu quyền**: Mỗi Lambda function có IAM role riêng, chỉ được cấp đúng quyền cần thiết — không dùng role chung.

@@ -1,115 +1,65 @@
 ---
 title: "Proposal"
-date: 2024-01-01
+date: 2026-07-09
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-In this section, you need to summarize the contents of the workshop that you **plan** to conduct.
 
-# IoT Weather Platform for Lab Research
-## A Unified AWS Serverless Solution for Real-Time Weather Monitoring
-
-### 1. Executive Summary
-The IoT Weather Platform is designed for the ITea Lab team in Ho Chi Minh City to enhance weather data collection and analysis. It supports up to 5 weather stations, with potential scalability to 10-15, utilizing Raspberry Pi edge devices with ESP32 sensors to transmit data via MQTT. The platform leverages AWS Serverless services to deliver real-time monitoring, predictive analytics, and cost efficiency, with access restricted to 5 lab members via Amazon Cognito.
+### 1. Project Summary
+The Document Management System (DMS) project is built to create a secure, highly scalable, and cost-effective internal document management system on top of the AWS Serverless platform.
+The system allows users to log in, upload documents, manage versions, share documents based on granular permissions, and track continuous operational histories. DMS utilizes core AWS services including Amazon Cognito, API Gateway, Lambda, S3, DynamoDB, EventBridge, GuardDuty, CloudFront, CloudWatch, and SNS.
 
 ### 2. Problem Statement
-### What’s the Problem?
-Current weather stations require manual data collection, becoming unmanageable with multiple units. There is no centralized system for real-time data or analytics, and third-party platforms are costly and overly complex.
-
-### The Solution
-The platform uses AWS IoT Core to ingest MQTT data, AWS Lambda and API Gateway for processing, Amazon S3 for storage (including a data lake), and AWS Glue Crawlers and ETL jobs to extract, transform, and load data from the S3 data lake to another S3 bucket for analysis. AWS Amplify with Next.js provides the web interface, and Amazon Cognito ensures secure access. Similar to Thingsboard and CoreIoT, users can register new devices and manage connections, though this platform operates on a smaller scale and is designed for private use. Key features include real-time dashboards, trend analysis, and low operational costs.
-
-### Benefits and Return on Investment
-The solution establishes a foundational resource for lab members to develop a larger IoT platform, serving as a study resource, and provides a data foundation for AI enthusiasts for model training or analysis. It reduces manual reporting for each station via a centralized platform, simplifying management and maintenance, and improves data reliability. Monthly costs are $0.66 USD per the AWS Pricing Calculator, with a 12-month total of $7.92 USD. All IoT equipment costs are covered by the existing weather station setup, eliminating additional development expenses. The break-even period of 6-12 months is achieved through significant time savings from reduced manual work.
+Traditional methods of storing and sharing internal documents often face severe constraints such as difficulties in version control, lack of fine-grained access control, hardships in auditing operational histories, and potential risks of corporate data exposure.
+The proposed solution is to build a document management system leveraging a 100% Serverless architecture, where raw file streams transfer directly to Amazon S3 via secure Presigned URLs, undergo automated malware screening prior to permanent storage, and have all metadata managed within optimized DynamoDB single-table layouts.
 
 ### 3. Solution Architecture
-The platform employs a serverless AWS architecture to manage data from 5 Raspberry Pi-based stations, scalable to 15. Data is ingested via AWS IoT Core, stored in an S3 data lake, and processed by AWS Glue Crawlers and ETL jobs to transform and load it into another S3 bucket for analysis. Lambda and API Gateway handle additional processing, while Amplify with Next.js hosts the dashboard, secured by Cognito. The architecture is detailed below:
-
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
-
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
-
-### AWS Services Used
-- **AWS IoT Core**: Ingests MQTT data from 5 stations, scalable to 15.
-- **AWS Lambda**: Processes data and triggers Glue jobs (two functions).
-- **Amazon API Gateway**: Facilitates web app communication.
-- **Amazon S3**: Stores raw data in a data lake and processed outputs (two buckets).
-- **AWS Glue**: Crawlers catalog data, and ETL jobs transform and load it.
-- **AWS Amplify**: Hosts the Next.js web interface.
-- **Amazon Cognito**: Secures access for lab users.
-
-### Component Design
-- **Edge Devices**: Raspberry Pi collects and filters sensor data, sending it to IoT Core.
-- **Data Ingestion**: AWS IoT Core receives MQTT messages from the edge devices.
-- **Data Storage**: Raw data is stored in an S3 data lake; processed data is stored in another S3 bucket.
-- **Data Processing**: AWS Glue Crawlers catalog the data, and ETL jobs transform it for analysis.
-- **Web Interface**: AWS Amplify hosts a Next.js app for real-time dashboards and analytics.
-- **User Management**: Amazon Cognito manages user access, allowing up to 5 active accounts.
+The system operates along the primary workflow:
+* End-users access the system securely over accelerated **Amazon CloudFront** edge connections.
+* The static Frontend application is hosted out of an isolated **Amazon S3 FrontendBucket**.
+* Users authenticate via **Amazon Cognito** identity directories and receive secure **JWT tokens**.
+* The Frontend client dispatches API requests through **Amazon API Gateway**.
+* **API Gateway** validates the **JWT** signatures natively using a built-in **Cognito Authorizer**.
+* **Core API Lambdas** process primary business logic such as account profiles, document indexes, and file specifications.
+* **Intent Lambdas** calculate ephemeral Presigned URLs to handle data ingestion and data egress (upload/download paths).
+* The Frontend streams files directly into the secure **Amazon S3 QuarantineBucket** via the generated upload link.
+* **Amazon GuardDuty** performs automated binary screening (Malware Protection) on the ingested asset.
+* The central **Amazon EventBridge** bus intercepts state transitions and triggers the **Upload Processor Function**.
+* The **Upload Processor** parses security tag indicators, updates item operational states inside **DynamoDB**, and safely transfers clean assets into the permanent **DocumentsBucket**.
+* **CloudWatch** aggregates execution logging fields and triggers continuous monitoring alerts via **SNS** if the platform encounters exceptions or anomalies.
 
 ### 4. Technical Implementation
-**Implementation Phases**
-This project has two parts—setting up weather edge stations and building the weather platform—each following 4 phases:
-- Build Theory and Draw Architecture: Research Raspberry Pi setup with ESP32 sensors and design the AWS serverless architecture (1 month pre-internship)
-- Calculate Price and Check Practicality: Use AWS Pricing Calculator to estimate costs and adjust if needed (Month 1).
-- Fix Architecture for Cost or Solution Fit: Tweak the design (e.g., optimize Lambda with Next.js) to stay cost-effective and usable (Month 2).
-- Develop, Test, and Deploy: Code the Raspberry Pi setup, AWS services with CDK/SDK, and Next.js app, then test and release to production (Months 2-3).
+* **Frontend:** React SPA, distributed globally via Amazon CloudFront edge networks.
+* **Backend:** AWS Lambda compute services utilizing Node.js 22 runtime environments to handle business computations.
+* **API:** Amazon API Gateway REST API interlocked with native Cognito Authorizers.
+* **Storage:** Amazon S3 multi-bucket layout encompassing FrontendBucket, QuarantineBucket, and DocumentsBucket tiers.
+* **Database:** Amazon DynamoDB non-relational tables managing document metadata, version history arrays, sharing link metrics, and immutable audit trails.
+* **Security:** Cognito group claims for fine-grained user authorization, absolute S3 Private Bucket isolations, dynamic short-lived Presigned URLs, strict IAM Least Privilege execution boundaries, and GuardDuty Malware Protection sandboxing.
+* **Observability:** Centralized CloudWatch Logs auditing, continuous X-Ray tracing diagnostics, and automated SNS Alerts signaling.
+* **Infrastructure Provisioning:** AWS CDK framework following modern Infrastructure as Code (IaC) deployment models.
 
-**Technical Requirements**
-- Weather Edge Station: Sensors (temperature, humidity, rainfall, wind speed), a microcontroller (ESP32), and a Raspberry Pi as the edge device. Raspberry Pi runs Raspbian, handles Docker for filtering, and sends 1 MB/day per station via MQTT over Wi-Fi.
-- Weather Platform: Practical knowledge of AWS Amplify (hosting Next.js), Lambda (minimal use due to Next.js), AWS Glue (ETL), S3 (two buckets), IoT Core (gateway and rules), and Cognito (5 users). Use AWS CDK/SDK to code interactions (e.g., IoT Core rules to S3). Next.js reduces Lambda workload for the fullstack web app.
-
-### 5. Timeline & Milestones
-**Project Timeline**
-- Pre-Internship (Month 0): 1 month for planning and old station review.
-- Internship (Months 1-3): 3 months.
-    - Month 1: Study AWS and upgrade hardware.
-    - Month 2: Design and adjust architecture.
-    - Month 3: Implement, test, and launch.
-- Post-Launch: Up to 1 year for research.
+### 5. Deployment Roadmap
+* **Week 9:** Prerequisite requirements analysis, comprehensive system architectural mapping, and target workspace environment staging.
+* **Week 10:** Multi-tier core DMS project infrastructure provisioning utilizing automated AWS CDK pipelines.
+* **Week 11:** Backend parameter configurations, root global Admin identity directory creation, integration API verification, and end-to-end document ingestion upload loops validation.
+* **Week 12:** Perimeter security configuration controls checks, deep system observability audits, systematic resource de-provisioning cleanup runs, and comprehensive project retrospective sign-off.
 
 ### 6. Budget Estimation
-You can find the budget estimation on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01).  
-Or you can download the [Budget Estimation File](../attachments/budget_estimation.pdf).
+Using a serverless architecture, the system operates on a pay-as-you-use model, with costs only incurred based on actual usage. In the test environment, costs are low thanks to AWS's Free Tier.
+* **AWS Lambda:** ~0.00 USD (within the free limit for 1 million requests/month).
+* **Amazon S3:** ~0.15 USD for external storage and bandwidth.
+* **DynamoDB:** ~0.00 USD (25GB of free storage).
+* **API Gateway & Cognito:** Free for small-scale internal user storage.
+* **Total estimated budget:** Under $1 USD/month for the test environment and approximately under $10 USD/month for a moderately sized real-world environment.
 
-### Infrastructure Costs
-- AWS Services:
-    - AWS Lambda: $0.00/month (1,000 requests, 512 MB storage).
-    - S3 Standard: $0.15/month (6 GB, 2,100 requests, 1 GB scanned).
-    - Data Transfer: $0.02/month (1 GB inbound, 1 GB outbound).
-    - AWS Amplify: $0.35/month (256 MB, 500 ms requests).
-    - Amazon API Gateway: $0.01/month (2,000 requests).
-    - AWS Glue ETL Jobs: $0.02/month (2 DPUs).
-    - AWS Glue Crawlers: $0.07/month (1 crawler).
-    - MQTT (IoT Core): $0.08/month (5 devices, 45,000 messages).
-
-Total: $0.7/month, $8.40/12 months
-
-- Hardware: $265 one-time (Raspberry Pi 5 and sensors).
-
-### 7. Risk Assessment
-#### Risk Matrix
-- Network Outages: Medium impact, medium probability.
-- Sensor Failures: High impact, low probability.
-- Cost Overruns: Medium impact, low probability.
-
-#### Mitigation Strategies
-- Network: Local storage on Raspberry Pi with Docker.
-- Sensors: Regular checks and spares.
-- Cost: AWS budget alerts and optimization.
-
-#### Contingency Plans
-- Revert to manual methods if AWS fails.
-- Use CloudFormation for cost-related rollbacks.
+### 7. Risk Assessment and Contingency
+* **Data Exposure Risk:** Neutralized by enforcing absolute S3 Private Bucket configurations, global Block Public Access constraints, dynamic Presigned URLs restricted by tight temporal expiration limits, and role-based user token validation mapping via Amazon Cognito directory groups.
+* **Malicious File Ingestion Threat:** Remedied by routing all untrusted inbound data streams directly into an isolated QuarantineBucket sandbox, backed by real-time automated threat checking via GuardDuty Malware Protection plans.
+* **Payload Size Networking Bottlenecks:** Resolved by bypassing compute networks during ingestion blocks, streaming binary files directly from client browsers straight to S3 storage boundaries instead of passing multi-megabyte data payloads across API Gateways.
+* **Unexpected Cloud Spend Accrual:** Mitigated by setting up automated CloudWatch Alarms monitoring system limits, routing urgent notification messages via SNS topics, and systematically triggering multi-environment resource teardown purges upon project evaluation handoffs.
 
 ### 8. Expected Outcomes
-#### Technical Improvements: 
-Real-time data and analytics replace manual processes.  
-Scalable to 10-15 stations.
-#### Long-term Value
-1-year data foundation for AI research.  
-Reusable for future projects.
+The capstone project targets the successful implementation of a highly performant, secure internal enterprise document management system complete with robust multi-tenant authorization partitions, asset version tracking capabilities, immutable append-only compliance ledger recording, and automated perimeter data isolation screening.
+Through the execution of this deployment lifecycle, engineering teams thoroughly synthesize cutting-edge AWS Serverless architectural design patterns against real-world enterprise requirements, gaining expert-level proficiency in modeling, constructing, securing, and maintaining cloud-native, modern software systems.

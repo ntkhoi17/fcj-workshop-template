@@ -6,17 +6,12 @@ chapter: false
 pre: " <b> 3. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
-This section will list and introduce the blogs you have posted to [AWS Study Group](https://www.facebook.com/groups/awsstudygroupfcj). For example:
+###  [Blog 1 - HOW TO BUILD A COST-EFFECTIVE AWS KMS STRATEGY FOR MULTI-TENANT APPLICATIONS](3.1-Blog1/)
+This blog introduces a cost-conscious approach to using AWS KMS for multi-tenant applications. The content focuses on centralized key management, using IAM Role, AWS STS, and Alias to ensure proper tenant-level data isolation while reducing operational complexity.
 
-###  [Blog 1 - SESSION POLICIES IN AMAZON EKS POD IDENTITY](3.1-Blog1/)
-This blog introduces the newly added session policies feature in Amazon EKS Pod Identity, which allows you to narrow IAM permissions flexibly and precisely for each pod without needing to create multiple separate IAM roles. This is an important step forward that helps apply the principle of least privilege more effectively in large-scale Kubernetes environments.
+###  [Blog 2 - Amazon Bedrock Baseline Architecture in an AWS Landing Zone: Deployment Platform for Enterprise Generative AI](3.2-Blog2/)
+This blog presents the Amazon Bedrock Baseline Architecture in an AWS Landing Zone environment. The main content explains how enterprises can organize a Generative AI platform using a multi-account model by separating the Service Network Account, Generative AI Account, and Workload Accounts.
 
-###  [Blog 2 - ...](3.2-Blog2/)
-This blog introduces the newly added session policies feature in Amazon EKS Pod Identity, which allows you to narrow IAM permissions flexibly and precisely for each pod without needing to create multiple separate IAM roles. This is an important step forward that helps apply the principle of least privilege more effectively in large-scale Kubernetes environments.
-
-###  [Blog 3 - ...](3.3-Blog3/)
-This blog introduces the newly added session policies feature in Amazon EKS Pod Identity, which allows you to narrow IAM permissions flexibly and precisely for each pod without needing to create multiple separate IAM roles. This is an important step forward that helps apply the principle of least privilege more effectively in large-scale Kubernetes environments.
+###  [Blog 3 - Emailing Daily Delta Cost Reports in a Multi-Account Environment Using AWS Lambda and Cost Explorer](3.3-Blog3/)
+This blog introduces a solution for automatically sending daily cost change reports in an AWS multi-account environment. The architecture uses Amazon EventBridge for scheduled triggers, AWS Lambda for data processing, AWS Cost Explorer API for retrieving cost information, and Amazon SES for sending email reports.
