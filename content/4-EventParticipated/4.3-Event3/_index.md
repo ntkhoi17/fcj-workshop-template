@@ -88,3 +88,5 @@ In addition to technical knowledge, the event helped me realize that AI in enter
 4. Metrics such as MTTD and MTTR are very important when evaluating system operations quality.
 5. Private connectivity is the preferred choice when connecting AI to internal systems or data.
 6. Generative AI will deliver greater value when integrated into the correct real-world business workflows.
+### Some Photos from the Event
+![Event3](../../images/event3.png)

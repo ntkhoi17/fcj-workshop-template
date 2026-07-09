@@ -88,3 +88,5 @@ Ngoài kiến thức kỹ thuật, sự kiện còn giúp mình nhận ra rằng
 4. Các chỉ số như MTTD và MTTR rất quan trọng khi đánh giá chất lượng vận hành hệ thống.
 5. Private connectivity là lựa chọn cần ưu tiên khi kết nối AI với hệ thống hoặc dữ liệu nội bộ.
 6. Generative AI sẽ có giá trị lớn hơn khi được tích hợp vào đúng quy trình nghiệp vụ thực tế.
+### Một Số Hình Ảnh Khi Tham Gia Sự Kiện
+![Event3](../../../images/event3.png)

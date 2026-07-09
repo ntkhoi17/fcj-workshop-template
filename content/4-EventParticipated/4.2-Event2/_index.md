@@ -96,3 +96,5 @@ Apart from technical knowledge, the insights on teamwork and career roadmaps als
 3. For complex AI challenges, the way data is organized plays a very important role.
 4. Effective teamwork requires workflows, tools, and clear communication.
 5. Career development in the infrastructure field demands persistence, regular practice, and a specific learning roadmap.
+### Some Photos from the Event
+![Event2](../../images/event2.png)

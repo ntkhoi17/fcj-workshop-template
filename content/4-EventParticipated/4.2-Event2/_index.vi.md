@@ -96,3 +96,5 @@ Ngoài kiến thức kỹ thuật, phần chia sẻ về làm việc nhóm và l
 3. Với các bài toán AI phức tạp, cách tổ chức dữ liệu có vai trò rất quan trọng.
 4. Làm việc nhóm hiệu quả cần quy trình, công cụ và giao tiếp rõ ràng.
 5. Phát triển nghề nghiệp trong lĩnh vực hệ thống cần sự kiên trì, thực hành đều đặn và lộ trình học tập cụ thể.
+### Một Số Hình Ảnh Khi Tham Gia Sự Kiện
+![Event2](../../../images/event2.png)
