@@ -7,66 +7,42 @@ pre: " <b> 1.4. </b> "
 ---
 
 
-
 ### Week 4 Objectives:
 
-* Explore advanced networking connectivity models on AWS through VPC Peering and AWS Transit Gateway.
-* Practice deploying containerized applications using Docker, Amazon ECR, Amazon ECS, Application Load Balancers, and ECS Services.
-* Understand automated application deployment workflows with CI/CD Pipelines utilizing GitLab, GitHub Actions, AWS CodeBuild, AWS CodeDeploy, and AWS CodePipeline.
-* Get familiar with data storage and analytics services on AWS such as File Storage Gateway, Amazon FSx for Windows File Server, and Data Lakes.
-* Learn long-term cost optimization methodologies for EC2 and RDS via Savings Plans, Reserved Instances, and Reserved DB Instances.
+* Learn how to connect two VPCs using VPC Peering.
+* Get familiar with Docker and the application packaging process using Containers.
+* Practice storing Docker Images on Amazon ECR.
+* Learn about the basic components of Amazon ECS.
+* Learn about long-term cost optimization options for EC2 and RDS.
 
 ### Tasks to implement this week:
+
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | --- | --- | --- | --- |
-| 2   | - Learn about Interconnecting Virtual Private Clouds with VPC Peering<br>- Learn about Centralized Connection Management with AWS Transit Gateway<br>- **Practice:**<br>&emsp; + Initialize CloudFormation Template<br>&emsp; + Create Security Groups<br>&emsp; + Create EC2 Instances within target VPCs<br>&emsp; + Update Network ACLs<br>&emsp; + Establish a VPC Peering connection between two VPCs<br>&emsp; + Update Route Tables for the Peering connection<br>&emsp; + Enable Cross-Peer DNS resolution<br>&emsp; + Create Key Pairs for Transit Gateway labs<br>&emsp; + Create Transit Gateway<br>&emsp; + Create Transit Gateway Attachments<br>&emsp; + Configure Transit Gateway Route Tables<br>&emsp; + Append Transit Gateway Routes to VPC Route Tables | 11/05/2026   | 11/05/2026      | <https://000019.awsstudygroup.com> <br><br> <https://000020.awsstudygroup.com/> |
-| 3   | - Learn about Application Deployment with Docker<br>- Learn about Deploying Applications onto Amazon Elastic Container Service (Amazon ECS)<br>- **Practice:**<br>&emsp; + Install Dependencies to execute applications in the Local environment<br>&emsp; + Deploy and validate applications on local machines<br>&emsp; + Configure VPCs and Security Groups<br>&emsp; + Create IAM Roles for Amazon ECR access<br>&emsp; + Log into Docker Hub<br>&emsp; + Create a DB Subnet Group and launch an RDS Instance<br>&emsp; + Configure EC2 Instances and install necessary libraries<br>&emsp; + Deploy applications using Docker Images<br>&emsp; + Deploy applications via Docker Compose<br>&emsp; + Push Docker Images to Amazon ECR or Docker Hub<br>&emsp; + Configure ECS infrastructure components<br>&emsp; + Create an ECS Cluster<br>&emsp; + Create ECS Task Definitions for Backend and Frontend<br>&emsp; + Configure an Application Load Balancer<br>&emsp; + Create an ECS Service and verify deployment outcomes | 12/05/2026   | 12/05/2026      | <https://000015.awsstudygroup.com> <br><br> <https://000016.awsstudygroup.com> |
-| 4   | - Learn about Application Deployment with AWS CodePipeline<br>- Learn about Automating AWS CodePipeline Application Deployments<br>- **Practice:**<br>&emsp; + Fork and modify target Repositories<br>&emsp; + Install and register a GitLab Runner<br>&emsp; + Configure authorization levels and IAM Roles<br>&emsp; + Populate environment variables and trigger the Pipeline<br>&emsp; + Implement CI/CD utilizing GitHub Actions<br>&emsp; + Generate Access Keys and Secret Keys for pipeline use<br>&emsp; + Configure GitHub integrations for CodeBuild<br>&emsp; + Create CodeBuild Projects for Frontend and Backend<br>&emsp; + Apply tags and evaluate build outputs<br>&emsp; + Monitor applications using Container Insights on CloudWatch<br>&emsp; + Route logs utilizing FireLens and Amazon S3<br>&emsp; + Prepare deployment infrastructure for application execution on EC2<br>&emsp; + Create an S3 Bucket for artifact retention<br>&emsp; + Setup Git Credentials and Git Connections<br>&emsp; + Create Service Roles and Instance Profiles<br>&emsp; + Install the CodeDeploy Agent<br>&emsp; + Create a CodeCommit Repository<br>&emsp; + Create a CodeBuild Project<br>&emsp; + Create a CodeDeploy Application<br>&emsp; + Assemble an end-to-end CodePipeline and verify execution workflows | 13/05/2026   | 13/05/2026      | <https://000017.awsstudygroup.com> <br><br> <https://000023.awsstudygroup.com> |
-| 5   | - Learn about Unlimited Data Storage on AWS with File Storage Gateway<br>- Learn about Deploying a Shared Repository for Windows utilizing Amazon FSx<br>- **Practice:**<br>&emsp; + Create an S3 Bucket backing the File Storage Gateway<br>&emsp; + Provision an EC2 Instance acting as the Storage Gateway appliance<br>&emsp; + Initialize the Storage Gateway<br>&emsp; + Configure File Shares<br>&emsp; + Mount File Shares from On-premise workstations<br>&emsp; + Build out the FSx practice environment<br>&emsp; + Provision an SSD Multi-AZ File System<br>&emsp; + Provision an HDD Multi-AZ File System<br>&emsp; + Map default File Shares<br>&emsp; + Populate new files into the File Share architecture<br>&emsp; + Benchmark storage performance parameters<br>&emsp; + Monitor ongoing FSx performance metrics<br>&emsp; + Activate Data Deduplication properties<br>&emsp; + Activate Shadow Copies functionality<br>&emsp; + Manage active User Sessions and open file states<br>&emsp; + Enforce user storage allocation Quotas<br>&emsp; + Activate Continuously Available shares<br>&emsp; + Scale throughput capacity and storage volume sizing | 14/05/2026   | 14/05/2026      | <https://000024.awsstudygroup.com> <br><br> <https://000025.awsstudygroup.com> |
-| 6   | - Learn about Architecture Building for Data Lakes on AWS<br>- Learn about Cost Optimization via Savings Plans, Reserved Instances, and Reserved DB Instances<br>- **Practice:**<br>&emsp; + Create IAM Roles supporting Data Lake environments<br>&emsp; + Draft Policies for data ingestion and processing layers<br>&emsp; + Create S3 Buckets for data lake retention<br>&emsp; + Establish a Delivery Stream for data ingestion workflows<br>&emsp; + Generate mock dataset frameworks<br>&emsp; + Configure an AWS Glue Crawler<br>&emsp; + Inspect the populated Data Catalog structures<br>&emsp; + Perform data transformation procedures<br>&emsp; + Analyze datasets utilizing Amazon Athena querying<br>&emsp; + Visualize analytics reporting via Amazon QuickSight dashboards<br>&emsp; + Explore structural types of Savings Plans<br>&emsp; + Review automated Savings Plans Recommendations<br>&emsp; + Study operational procurement workflows for Savings Plans<br>&emsp; + Study Reserved Instances and Reserved DB Instances for Amazon RDS | 15/05/2026   | 15/05/2026      | <https://000035.awsstudygroup.com> <br><br> <https://000042.awsstudygroup.com> |
+| 2 | - Learn about VPC Peering<br>- Learn about Network ACLs and Cross-Peer DNS<br>- **Practice:**<br>&emsp; + Prepare two VPCs and an EC2 Instance<br>&emsp; + Create a VPC Peering connection<br>&emsp; + Update Route Tables<br>&emsp; + Verify the connection between two VPCs<br>&emsp; + Activate Cross-Peer DNS | 11/05/2026 | 11/05/2026 | <https://000019.awsstudygroup.com> |
+| 3 | - Learn about Docker and Docker Images<br>- Learn about Docker Containers and Docker Compose<br>- **Practice:**<br>&emsp; + Install necessary tools<br>&emsp; + Run the application in a Local environment<br>&emsp; + Create a Docker Image<br>&emsp; + Launch a Docker Container<br>&emsp; + Verify the application using Docker Compose | 12/05/2026 | 12/05/2026 | <https://000015.awsstudygroup.com> |
+| 4 | - Learn about Amazon Elastic Container Registry<br>- Learn how to deploy Docker on EC2<br>- **Practice:**<br>&emsp; + Create an Amazon ECR Repository<br>&emsp; + Configure an IAM Role for EC2<br>&emsp; + Create an EC2 Instance<br>&emsp; + Push a Docker Image to Amazon ECR<br>&emsp; + Pull the Image and run the Container on EC2 | 13/05/2026 | 13/05/2026 | <https://000015.awsstudygroup.com> |
+| 5 | - Learn an overview of Amazon ECS<br>- Learn about ECS Clusters, Task Definitions, and ECS Services<br>- **Basic Practice:**<br>&emsp; + Create an ECS Cluster<br>&emsp; + Create a simple Task Definition<br>&emsp; + Create an ECS Service<br>&emsp; + Deploy a Container from Amazon ECR<br>&emsp; + Verify the status of ECS Tasks<br>&emsp; + Clean up resources post-practice | 14/05/2026 | 14/05/2026 | <https://000016.awsstudygroup.com> |
+| 6 | - Learn about Savings Plans<br>- Learn about Reserved Instances and Reserved DB Instances<br>- Compare commitment-based utilization models<br>- **Practice:**<br>&emsp; + View Savings Plans Recommendations<br>&emsp; + Analyze commitment terms and payment options<br>&emsp; + Compare Savings Plans with Reserved Instances<br>&emsp; + Summarize and review Week 4 content | 15/05/2026 | 15/05/2026 | <https://000042.awsstudygroup.com> |
 
 ### Week 4 Achievements:
 
-#### 1. VPC Peering Exploration
-* Understood VPC Peering as a one-to-one network connection between two VPCs that enables secure traffic routing using private IPv4 or IPv6 addresses without traversing the public Internet.
-* Grasped how to configure routing tables (Route Tables) to allow interconnected communication between a default VPC and custom VPC ranges.
-* **Advanced Routing Configuration Practice:** Deployed infrastructure via CloudFormation, updated Network ACLs (acting as a stateless network firewall at the subnet level) distinguishing them from Security Groups (stateful resource-level firewalls), and successfully enabled Cross-Peer DNS resolution to synchronize private domain name resolution across both VPC endpoints.
-
-#### 2. AWS Transit Gateway Exploration
-* Understood the role of Transit Gateway as a centralized Cloud Router leveraging a Hub-and-Spoke topology to simplify connectivity management and scale network architectures efficiently when connecting multiple VPCs and On-premises networks.
-* **Centralized Network Architecture Practice:** Initialized an AWS Transit Gateway, established constituent Transit Gateway Attachments for targeted VPC networks, managed independent Transit Gateway Route Tables, and mapped optimized routes to streamline traffic distribution patterns.
-
-#### 3. Application Deployment with Docker Exploration
-* Understood the methodology of packaging an entire application along with its prerequisite dependencies into a Docker Image to ensure consistent execution across all deployment environments.
-* **Containerization and Execution Practice:** Handled source code deployment checks in a local machine environment, authored multi-container configuration manifests using Docker Compose to spin up frontend and backend services concurrently, detached database instances onto standalone Amazon RDS MySQL systems, and pushed production-ready images safely into Amazon ECR repositories.
-
-#### 4. Amazon Elastic Container Service (Amazon ECS) Exploration
-* Grasped the runtime operational architecture of AWS ECS for orchestrating container lifecycles through its structural layout: ECS Clusters, Task Definitions (container blueprints), and ECS Services (state and runtime configuration management).
-* **Container Orchestration Practice:** Structured secure isolated network tiers utilizing NAT Gateways and Route Tables, registered service backends under AWS Cloud Map service discovery Namespaces, initialized an ECS Cluster running on serverless AWS Fargate compute layers, and bound services to Application Load Balancers to distribute ingress traffic reliably across application Tasks.
-* **Deployment Strategies Mastery:** Analyzed updating patterns, mastering Rolling Deployments for Frontend tasks and Blue/Green Deployments for Backend tasks to ensure zero-downtime service state shifts.
-
-#### 5. Containerized Application CI/CD Engineering Exploration
-* Grasped automated pipeline concepts for running continuous integration and continuous deployment cycles—encompassing code construction (Build), verification (Test), and asset release (Deploy)—utilizing modern automation tooling blocks.
-* **Integration Automation Practice:** Set up and registered dedicated GitLab Runners to automatically trigger workflow jobs, and configured continuous delivery workflows via GitHub Actions integrated with AWS CodeBuild to automatically compile Frontend/Backend builds mapped to release tags.
-* **Container Architecture Observation:** Activated Container Insights within CloudWatch for granular resource consumption analytics, and configured FireLens sidecar agents to capture, process, and stream application log stdout records to centralized Amazon S3 long-term storage buckets.
-
-#### 6. Pipeline Construction for EC2 Delivery via AWS CodePipeline Practice
-* Mastered the complete native AWS DevOps developer suite, including: CodeCommit (source version management), CodeBuild (compilation/packaging automation), CodeDeploy (automated compute target updates), and CodePipeline (end-to-end continuous orchestration).
-* **EC2 CI/CD Provisioning Practice:** Provisioned S3 Buckets for artifact tracking, configured secure IAM Instance Profiles for server access, installed the CodeDeploy Agent across target EC2 fleets, assembled continuous Source -> Build -> Deploy sequence models inside CodePipeline, and managed troubleshooting workflows across pipeline execution phases.
-
-#### 7. AWS Storage Gateway Exploration
-* Understood the role of the File Storage Gateway service as a hybrid storage bridge, connecting local On-premises infrastructure workloads directly to virtually limitless cloud volumes in Amazon S3 via standardized network file-sharing protocols.
-* **Storage Gateway Configuration Practice:** Deployed a virtual Storage Gateway appliance on Amazon EC2, provisioned compatible File Shares, and successfully mounted targeted exports to local servers to verify seamless real-time data read/write performance.
-
-#### 8. Amazon FSx for Windows File Server Exploration
-* Mastered architectural designs regarding Amazon FSx to deliver fully managed, highly performant file storage structures optimized over the industry-standard SMB protocol tailored for native enterprise Windows Server ecosystems.
-* **Advanced Storage Management Practice:** Initialized high-availability SSD and HDD storage configurations utilizing Multi-AZ redundant deployment patterns, mapped shared storage connections, and activated deep configurations including: Data Deduplication properties to optimize capacity consumption, shadow copy snapshot behaviors (Shadow Copies) for granular object state restoration, User Quotas rules to manage data footprints, and scaled baseline throughout and capacity sizing non-disruptively using the AWS CLI.
-
-#### 9. Data Lake Architecture on AWS Exploration
-* Understood conceptual patterns of structured Centralized Repositories (Data Lakes) built atop Amazon S3 to retain massive pools of raw unstructured or transformed datasets originating from decoupled architectures, optimized for downstream analytical workloads.
-* **Data Processing Pipeline Practice:** Implemented secure granular data access boundaries via IAM Policies, configured real-time data flows utilizing Amazon Kinesis Data Firehose Delivery Streams, automated schema discovery and catalog metadata synchronization via AWS Glue Crawlers into the central Data Catalog, ran optimized standard SQL analytical structures using Amazon Athena, and integrated visualization tracking reports across Amazon QuickSight business intelligence dashboards.
-
-#### 10. Long-Term Infrastructure Cost Optimization Analysis (Savings Plans & Reserved Instances)
-* Mastered cloud financial management and cost allocation protocols for predictable ongoing compute workloads to maximize capital efficiency, driving down operational expenditures by up to 72%.
-* **Commitment Model Analysis:** Differentiated the operational mechanics separating Savings Plans (offering highly flexible spend commitments structured on a $/hour metric spanning Compute, EC2, and Fargate domains) from Reserved Instances / Reserved DB Instances (offering fixed configuration rentals for dedicated EC2 nodes or RDS infrastructure blocks under 1-year or 3-year term limits).
-* **Financial Administration Application:** Evaluated automated Savings Plans Recommendations pipelines native to the AWS Billing Console to synthesize precise infrastructure operational budget plans matching corporate data demands.
+* Understood how VPC Peering connects resources between two VPCs using private network addresses.
+* Learned how to update Route Tables and verify connectivity between two VPCs.
+* Differentiated between Security Groups and Network ACLs.
+* Understood the basic concepts of Docker:
+  * Docker Image
+  * Docker Container
+  * Dockerfile
+  * Docker Compose
+* Packaged and ran an application using Docker in a Local environment.
+* Learned how to create Repositories and store Docker Images on Amazon ECR.
+* Deployed a basic Docker Container on Amazon EC2.
+* Understood the main components of Amazon ECS:
+  * ECS Cluster
+  * Task Definition
+  * ECS Task
+  * ECS Service
+* Practiced deploying a basic Container on Amazon ECS.
+* Understood the differences between Savings Plans, Reserved Instances, and Reserved DB Instances.
+* Learned how to view Savings Plans Recommendations for cost optimization options.
